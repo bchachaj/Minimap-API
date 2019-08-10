@@ -10,13 +10,15 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const authRoutes = require('./routes/authRouter');
+const reqAuth = require('./middleware/reqAuth');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(authRoutes)
 
-app.get('/', (req, res) => {
-   res.send('Hello from the express side'); 
+
+app.get('/', reqAuth, (req, res) => {
+   res.send(req.user); 
 });
 
 const { DB_USER, DB_PASSWORD } = process.env; 
@@ -36,9 +38,6 @@ mongoose.connection.on('connected', () => {
 mongoose.connection.on('error', (err) => {
     console.error('Error connecting to mongod', err);
 })
-
-console.log(mongoUri);
-
 
 app.listen(port, () => {
     console.log(`listening on ${port}`);
