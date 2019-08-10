@@ -1,8 +1,13 @@
 require('dotenv').config()
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
+const authRoutes = require('./routes/authRouter');
 
 const app = express();
+app.use(bodyParser.json());
+app.use(authRoutes)
 const port = 3002;
 
 app.get('/', (req, res) => {
