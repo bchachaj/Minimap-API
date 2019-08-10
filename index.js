@@ -1,7 +1,6 @@
 require('dotenv').config()
 require('./models/User');
-// require('./models/Map');
-// require('./models/Marker');
+require('./models/Map');
 
 const express = require('express');
 const port = 3002;
@@ -9,13 +8,14 @@ const port = 3002;
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-const authRoutes = require('./routes/authRouter');
+const authRouter = require('./routes/authRouter');
+const mapRouter = require('./routes/mapRouter');
 const reqAuth = require('./middleware/reqAuth');
 
 const app = express();
 app.use(bodyParser.json());
-app.use(authRoutes)
-
+app.use(authRouter);
+app.use(mapRouter);
 
 app.get('/', reqAuth, (req, res) => {
    res.send(req.user); 
