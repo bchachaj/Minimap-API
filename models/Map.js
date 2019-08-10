@@ -38,9 +38,12 @@ const mapSchema = new mongoose.Schema({
         required: true
     },
     dimensions: {
-        initHeight: Number, 
-        initWidth: Number, 
-        initMapScale: Number, 
+        type: {
+            initHeight: Number, 
+            initWidth: Number, 
+            initMapScale: Number, 
+        },
+        required: true,
     },
     mapMarkers: {
         type: [markerSchema],

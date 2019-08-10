@@ -13,20 +13,20 @@ router.get('/maps', async (req, res) => {
     res.send(maps);
 });
 
-router.post('/maps', async(req, res) => {
-    const { imgSrc, name } = req.body; 
+router.post('/maps', async (req, res) => {
+    const { imgSrc, name, dimensions } = req.body;
 
-    if(!imgSrc) {
+    if (!imgSrc) {
         return res.status(422).send({ error: 'Image source required' });
     }
-    
+
     try {
-        const map = new Map({ imgSrc, name, userId: req.user._id });
+        const map = new Map({ imgSrc, name, dimensions, userId: req.user._id });
         await map.save();
         res.send(map);
     } catch (err) {
         console.log(err);
-        return res.status(422).send({ error: 'Map save failed'})        
+        return res.status(422).send({ error: 'Map save failed' })
     }
 });
 
