@@ -14,7 +14,6 @@ router.post('/signup', async (req, res) => {
 
     try {
         await user.save();
-
         const token = jwt.sign({ userId: user._id }, JWT_SECRET) 
 
         res.send({ token });
