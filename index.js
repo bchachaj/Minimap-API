@@ -1,7 +1,11 @@
 require('dotenv').config()
 require('./models/User');
+// require('./models/Map');
+// require('./models/Marker');
 
 const express = require('express');
+const port = 3002;
+
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
@@ -10,10 +14,9 @@ const authRoutes = require('./routes/authRouter');
 const app = express();
 app.use(bodyParser.json());
 app.use(authRoutes)
-const port = 3002;
 
 app.get('/', (req, res) => {
-   res.send('Hello'); 
+   res.send('Hello from the express side'); 
 });
 
 const { DB_USER, DB_PASSWORD } = process.env; 
