@@ -3,6 +3,7 @@ require('./models/User');
 require('./models/Map');
 
 const express = require('express');
+const cors = require('cors'); 
 const port = 3002;
 
 const mongoose = require('mongoose');
@@ -13,6 +14,7 @@ const mapRouter = require('./routes/mapRouter');
 const reqAuth = require('./middleware/reqAuth');
 
 const app = express();
+app.options('*', cors()); 
 app.use(bodyParser.json());
 app.use(authRouter);
 app.use(mapRouter);
@@ -20,6 +22,10 @@ app.use(mapRouter);
 app.get('/', reqAuth, (req, res) => {
    res.send(req.user); 
 });
+
+// app.get('/test', (req, res) => { 
+//   res.send('test');
+// }); 
 
 const { DB_USER, DB_PASSWORD } = process.env; 
 
