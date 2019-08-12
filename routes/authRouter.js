@@ -10,9 +10,8 @@ const { JWT_SECRET } = process.env;
 
 router.post('/signup', async (req, res) => {
     const { email, password } = req.body;
-    console.log(email, password)
     const user = new User({ email, password });
-    console.log(user);
+    
     try {
         await user.save();
         const token = jwt.sign({ userId: user._id }, JWT_SECRET)
@@ -26,7 +25,7 @@ router.post('/signup', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    console.log(email, password)
+
     if (!email || !password) return res.status(422).send({ error: 'Credentials cannot be blank' });
 
     const user = await User.findOne({ email });
@@ -51,8 +50,6 @@ router.post('/logout', async (req, res) => {
     const user = new User({ email, password });
 
     await user.save();
-
-    res.send('post signup request');
 });
 
 
