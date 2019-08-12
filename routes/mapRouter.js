@@ -9,7 +9,7 @@ router.use(reqAuth);
 
 
 router.get('/maps', async (req, res) => {
-    const maps = await Map.find({ userId: req.userId });
+    const maps = await Map.find({ userId: req.user._id });
     res.send(maps);
 });
 
