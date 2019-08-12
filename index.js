@@ -4,6 +4,7 @@ require('./models/Map');
 
 const express = require('express');
 const cors = require('cors'); 
+const helmet = require('helmet')
 const port = 3002;
 
 const mongoose = require('mongoose');
@@ -14,7 +15,8 @@ const mapRouter = require('./routes/mapRouter');
 const reqAuth = require('./middleware/reqAuth');
 
 const app = express();
-app.options('*', cors()); 
+// app.options('*', cors()); 
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(authRouter);
 app.use(mapRouter);
