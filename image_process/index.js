@@ -1,11 +1,9 @@
 require('dotenv').config();
 
 var aws = require('aws-sdk')
-var express = require('express')
 var multer = require('multer')
 var multerS3 = require('multer-s3')
 var uuid = require('uuid');
-const router = express.Router();
 
 aws.config.update({
     secretAccessKey: process.env.AWS_SECRET_KEY,
@@ -21,7 +19,6 @@ var s3 = new aws.S3();
 //     console.log('Your generated pre-signed URL is', url);
 // });
 
-
 var upload = multer({
     storage: multerS3({
         s3: s3,
@@ -34,15 +31,4 @@ var upload = multer({
     })
 });
 
-// console.log(upload.array('upl', 1))
-router.post('/upload', upload.array('upl', 1), function (req, res, next) {
-    console.log(upload.array('upl', 1))
-    res.send("Uploaded!");
-});
-
-
-router.get('/nice', function (req, res) {
-    res.sendFile(__dirname + '/index.html');
-});
-
-module.exports = router; 
+module.exports = upload; 

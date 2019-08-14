@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const authRouter = require('./routes/authRouter');
-const uploadRouter = require('./image_process/index');
+const uploadRouter = require('./routes/uploadRouter');
 const mapRouter = require('./routes/mapRouter');
 const reqAuth = require('./middleware/reqAuth');
 
