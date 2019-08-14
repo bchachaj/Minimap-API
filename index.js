@@ -11,6 +11,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const authRouter = require('./routes/authRouter');
+const uploadRouter = require('./image_process/index');
 const mapRouter = require('./routes/mapRouter');
 const reqAuth = require('./middleware/reqAuth');
 
@@ -19,15 +20,12 @@ const app = express();
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(authRouter);
+app.use(uploadRouter);
 app.use(mapRouter);
 
 app.get('/', reqAuth, (req, res) => {
    res.send(req.user); 
 });
-
-// app.get('/test', (req, res) => { 
-//   res.send('test');
-// }); 
 
 const { DB_USER, DB_PASSWORD } = process.env; 
 
