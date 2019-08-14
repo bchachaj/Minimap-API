@@ -18,17 +18,41 @@ var s3 = new aws.S3();
 // s3.getSignedUrl('putObject', params, function (err, url) {
 //     console.log('Your generated pre-signed URL is', url);
 // });
+// var params = { Bucket: 'test-bucket-tutorial', Key: 'images/myimage.jpg', ContentType: 'image/jpeg' };
+// s3.getSignedUrl('putObject', params, function (err, url) {
+//     console.log('Your generated pre-signed URL is', url);
+// });
 
-var upload = multer({
-    storage: multerS3({
-        s3: s3,
-        bucket: 'minimap-dev',
-        key: function (req, file, cb) {
-            console.log(file);
-            cb(null, file.originalname); //use Date.now() for unique file keys
-            // cb(null, Date.now()); //use Date.now() for unique file keys
+// var upload = multer({
+//     storage: multerS3({
+//         s3: s3,
+//         bucket: 'minimap-dev',
+//         key: function (req, file, cb) {
+//             console.log(file);
+//             cb(null, file.originalname); //use Date.now() for unique file keys
+//             // cb(null, Date.now()); //use Date.now() for unique file keys
+//         }
+//     })
+// });
+
+
+function generateUploadURL(imgData) {
+    let preSignedURL; 
+    console.log(imgData)
+    var params = { Bucket: 'minimap-dev', Key: 'images/myimage.jpg', ContentType: 'image/jpeg' };
+
+    s3.getSignedUrl('putObject', params, function (err, url) {
+        if(err) {
+            console.log(err);
+            return; 
+        } else {
+            preSignedURL = url; 
         }
-    })
-});
+        console.log('Your generated pre-signed URL is', url);
+    });
 
-module.exports = upload; 
+    return preSignedURL;
+}
+
+
+module.exports = { generateUploadURL }; 
