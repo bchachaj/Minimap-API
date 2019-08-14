@@ -1,8 +1,6 @@
 require('dotenv').config();
 
 var aws = require('aws-sdk')
-var multer = require('multer')
-var multerS3 = require('multer-s3')
 var uuid = require('uuid');
 
 aws.config.update({
@@ -14,44 +12,22 @@ aws.config.update({
 
 var s3 = new aws.S3();
 
-// var params = { Bucket: 'minimap-dev', Key: 'images/myimage.jpg', ContentType: 'image/jpeg' };
-// s3.getSignedUrl('putObject', params, function (err, url) {
-//     console.log('Your generated pre-signed URL is', url);
-// });
-// var params = { Bucket: 'test-bucket-tutorial', Key: 'images/myimage.jpg', ContentType: 'image/jpeg' };
-// s3.getSignedUrl('putObject', params, function (err, url) {
-//     console.log('Your generated pre-signed URL is', url);
-// });
+function generateUploadURL({ fileName }) {
+    var params = { Bucket: process.env.AWS_BUCKET, Key: fileName, ContentType: 'image/jpeg' };
 
-// var upload = multer({
-//     storage: multerS3({
-//         s3: s3,
-//         bucket: 'minimap-dev',
-//         key: function (req, file, cb) {
-//             console.log(file);
-//             cb(null, file.originalname); //use Date.now() for unique file keys
-//             // cb(null, Date.now()); //use Date.now() for unique file keys
-//         }
-//     })
-// });
-
-
-function generateUploadURL(imgData) {
-    let preSignedURL; 
-    console.log(imgData)
-    var params = { Bucket: 'minimap-dev', Key: 'images/myimage.jpg', ContentType: 'image/jpeg' };
-
-    s3.getSignedUrl('putObject', params, function (err, url) {
+    return new Promise((resolve, reject) => {
+        s3.getSignedUrl('putObject', params, function (err, url) {
         if(err) {
-            console.log(err);
-            return; 
+            reject(err);
         } else {
-            preSignedURL = url; 
+            console.log('Your generated pre-signed URL is', url);
+            resolve(url); 
         }
-        console.log('Your generated pre-signed URL is', url);
+        
+    }); 
     });
 
-    return preSignedURL;
+  
 }
 
 

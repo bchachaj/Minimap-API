@@ -3,20 +3,14 @@ const router = express.Router();
 const { generateUploadURL } = require('./../image_process/index');
 
 // only generating pre-signed URL and then send back to client side
-router.post('/upload', function (req, res, next) {
-    // var params = {
-    //     Bucket: 'minimap-dev',
-    //     Key: 'images/myimage.jpg',
-    //     ContentType: 'image/jpeg'
-    // };
 
-    // console.log(params)
-// 
-
-    generateUploadURL(req.body);
-
-    // console.log(req.body)
-    res.send("Uploaded");
+router.post('/upload', async function (req, res, next) {
+    try {
+        const presignedUploadPath = await generateUploadURL(req.body);
+        res.status(200).send(presignedUploadPath);
+    } catch {
+        res.status(422).send("Image upload URL generation failed.")
+    } 
 });
 
 
