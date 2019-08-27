@@ -11,12 +11,12 @@ aws.config.update({
 var s3 = new aws.S3();
 
 
-function generateUploadURL({ fileName }) {
+function generateUploadURL({ fileName, fileType }) {
 
     var params = { 
         Bucket: process.env.AWS_BUCKET, 
         Key: fileName, 
-        ContentType: 'image/jpeg',
+        ContentType: fileType,
         ACL: 'public-read'
      };
 
