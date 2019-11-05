@@ -21,7 +21,7 @@
     "imagemin": "^7.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.3.0-beta2",
-    "mongoose": "^5.6.9",
+    "mongoose": "^5.7.5",
     "multer": "^1.4.2",
     "multer-s3": "^2.9.0",
     "nodemon": "^1.19.1",
